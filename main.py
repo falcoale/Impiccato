@@ -4,8 +4,8 @@ import sys
 
 
 
-def exit():
-    print("Hai perso! Per ricominciare il gioco il gioco scrivi python main.py")
+def exit(randomWord):
+    print("Hai perso! La parola corretta era " + randomWord + ". Per ricominciare il gioco il gioco scrivi python main.py.")
     sys.exit('Hai terminato le vite')  # Esci dal gioco
 
 def carica_stadi():
@@ -21,7 +21,7 @@ def disegno_impiccato(errori, stadi):
     if 0 <= errori < len(stadi):
         return stadi[errori]
     else:
-        exit()
+        exit(randomWord)
 
 def genWord():
     try:
@@ -88,6 +88,8 @@ def main():
             errori, indovinato, valori_correnti = check(errori, stadi, tentativo, randomWord, valori_correnti, num_lettere)
             if indovinato:
                 break  # Esci dal ciclo se l'utente ha indovinato la parola, altrimenti tentativi infiniti
+            if errori >= len(stadi) - 1:
+                exit(randomWord)  # Esci dal gioco se hai raggiunto il limite di errori
 
 if __name__ == "__main__":
     main()

@@ -77,7 +77,6 @@ def main():
 
     print(disegno_impiccato(errori, stadi))
     randomWord = genWord()
-    print(randomWord)  # Per debugging, rimuovi questa riga in produzione
     if randomWord:
         num_lettere = len(randomWord)
         valori_correnti = "_" * num_lettere

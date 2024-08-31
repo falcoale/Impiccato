@@ -3,10 +3,10 @@ import random
 import sys
 
 
-
 def exit(randomWord):
-    print("Hai perso! La parola corretta era " + randomWord + ". Per ricominciare il gioco il gioco scrivi python main.py.")
+    print("Hai perso! La parola corretta era " + randomWord + ". Per ricominciare il gioco, scrivi python main.py.")
     sys.exit('Hai terminato le vite')  # Esci dal gioco
+
 
 def carica_stadi():
     try:
@@ -17,11 +17,13 @@ def carica_stadi():
         print(f"Errore nel caricamento del file JSON: {e}")
         return []
 
+
 def disegno_impiccato(errori, stadi):
     if 0 <= errori < len(stadi):
         return stadi[errori]
     else:
-        exit(randomWord)
+        return stadi[-1]  # Mostra l'ultimo stadio se gli errori sono oltre il limite
+
 
 def genWord():
     try:
@@ -37,35 +39,38 @@ def genWord():
         return None
 
 
-def check(errori, stadi, tentativo, randomWord, valori_correnti, num_lettere):
-    if len(tentativo) != len(randomWord):
-        print(f"La parola da te inserita non ha lo stesso numero di caratteri della parola da inserire. La parola da indovinare ha {num_lettere} lettere.")
-        return errori, False, valori_correnti
-
-    if tentativo == randomWord:
-        print("Bravo! Hai indovinato la parola!")
-        return errori, True, valori_correnti
-    else:
-        indovinato = False
-        nuova_parola = list(valori_correnti)
-
-        for i in range(len(randomWord)):
-            if randomWord[i] == tentativo[i]:  # Controlla se la lettera è corretta
-                nuova_parola[i] = tentativo[i]  # Aggiorna la posizione corretta
-                indovinato = True
-
-        valori_correnti = "".join(nuova_parola)  # Converti nuovamente in stringa
-
-        if indovinato:
-            errori += 1  # Incrementa gli errori
-            print(disegno_impiccato(errori, stadi)) # Printi gli stadi
+def check(errori, stadi, tentativo, randomWord, valori_correnti):
+    if len(tentativo) == 1:  # Se l'utente inserisce una sola lettera
+        if tentativo in randomWord:  # Se la lettera è presente nella parola da indovinare
+            nuova_parola = list(valori_correnti)
+            for i in range(len(randomWord)):
+                if randomWord[i] == tentativo:  # Aggiorna la posizione corretta
+                    nuova_parola[i] = tentativo
+            valori_correnti = "".join(nuova_parola)
             print(f"Parola da indovinare: {valori_correnti}")
         else:
             errori += 1
             print(disegno_impiccato(errori, stadi))
             print("Nessuna lettera è corretta. Riprova.")
 
+        return errori, valori_correnti == randomWord, valori_correnti
+
+    elif len(tentativo) == len(randomWord):  # Se l'utente inserisce una parola intera
+        if tentativo == randomWord:
+            print("Bravo! Hai indovinato la parola!")
+            return errori, True, randomWord
+        else:
+            errori += 1
+            print(disegno_impiccato(errori, stadi))
+            print(f"La parola inserita '{tentativo}' non è corretta.")
+            print(f"Parola da indovinare: {valori_correnti}")
+            return errori, False, valori_correnti
+
+    else:
+        print(
+            f"La parola da te inserita non ha lo stesso numero di caratteri della parola da indovinare. La parola da indovinare ha {len(randomWord)} lettere.")
         return errori, False, valori_correnti
+
 
 def main():
     errori = 0
@@ -82,14 +87,15 @@ def main():
         valori_correnti = "_" * num_lettere
         print("Parola da indovinare:", valori_correnti)
 
-
         while True:
-            tentativo = input(str("Inserisci la parola: "))
-            errori, indovinato, valori_correnti = check(errori, stadi, tentativo, randomWord, valori_correnti, num_lettere)
+            tentativo = input(str("Inserisci una lettera o la parola intera: "))
+            errori, indovinato, valori_correnti = check(errori, stadi, tentativo, randomWord, valori_correnti)
             if indovinato:
-                break  # Esci dal ciclo se l'utente ha indovinato la parola, altrimenti tentativi infiniti
-            if errori >= len(stadi) - 1:
+                print("Hai vinto!")
+                break  # Esci dal ciclo se l'utente ha indovinato la parola
+            if errori >= len(stadi):  # Corretto il limite degli errori
                 exit(randomWord)  # Esci dal gioco se hai raggiunto il limite di errori
+
 
 if __name__ == "__main__":
     main()

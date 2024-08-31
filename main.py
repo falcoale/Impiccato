@@ -46,12 +46,12 @@ def check(errori, stadi, tentativo, randomWord, valori_correnti):
             for i in range(len(randomWord)):
                 if randomWord[i] == tentativo:  # Aggiorna la posizione corretta
                     nuova_parola[i] = tentativo
-            valori_correnti = "".join(nuova_parola)
-            print(f"Parola da indovinare: {valori_correnti}")
+            valori_correnti = "".join(nuova_parola) # Converte lista to stringa
+            print(f"Parola da indovinare: {valori_correnti}") # Printi la parola da indovinare con indizi (es. parola = gatto; valori_correnti = ga__o)
         else:
-            errori += 1
-            print(disegno_impiccato(errori, stadi))
-            print("Nessuna lettera è corretta. Riprova.")
+            errori += 1 # Incrementi var errori
+            print(disegno_impiccato(errori, stadi)) # Printi lo stadio (con errore incrementato vedi stadi.json
+            print("Nessuna lettera è corretta. Riprova.") # Printi messaggio di errore
 
         return errori, valori_correnti == randomWord, valori_correnti
 
@@ -66,32 +66,32 @@ def check(errori, stadi, tentativo, randomWord, valori_correnti):
             print(f"Parola da indovinare: {valori_correnti}")
             return errori, False, valori_correnti
 
-    else:
+    else: # Se il numero delle lettere del tentativo non sono uguali (elif a 1 per controllare una sola lettera) al numero di lettere della parola da indovinare
         print(
-            f"La parola da te inserita non ha lo stesso numero di caratteri della parola da indovinare. La parola da indovinare ha {len(randomWord)} lettere.")
+            f"La parola da te inserita non ha lo stesso numero di caratteri della parola da indovinare. La parola da indovinare ha {len(randomWord)} lettere.") # Printi il messaggio di errore
         return errori, False, valori_correnti
 
 
-def main():
-    errori = 0
-    stadi = carica_stadi()
+def main(): # Funzione principale del gioco (programma)
+    errori = 0 # Inizializzi errori con il valore di 0
+    stadi = carica_stadi() # Richiami la funzione
 
     if not stadi:
-        print("Nessuno stadio caricato.")
+        print("Nessuno stadio caricato.") # Print un messaggio di errore
         return
 
-    print(disegno_impiccato(errori, stadi))
-    randomWord = genWord()
+    print(disegno_impiccato(errori, stadi)) # Printi semplicemente lo stadio corretto seguendo la var errori (+= nella funzione check)
+    randomWord = genWord() # Va a richiamare la funzione genWord() per generare la parola da parole.json !!DIZIONARIO DA CAMBIARE, questo fa schifo!!
     if randomWord:
-        num_lettere = len(randomWord)
-        valori_correnti = "_" * num_lettere
-        print("Parola da indovinare:", valori_correnti)
+        num_lettere = len(randomWord) # Il numero di lette della parola da indovinare
+        valori_correnti = "_" * num_lettere # Aggiorna "____" per capirci
+        print("Parola da indovinare:", valori_correnti) # Print indizio
 
-        while True:
+        while True: # Ciclo while che racchiude il nucleo del gioco
             tentativo = input(str("Inserisci una lettera o la parola intera: "))
             errori, indovinato, valori_correnti = check(errori, stadi, tentativo, randomWord, valori_correnti)
             if indovinato:
-                print("Hai vinto!")
+                print("Hai vinto!") # Print Vittoria
                 break  # Esci dal ciclo se l'utente ha indovinato la parola
             if errori >= len(stadi):  # Corretto il limite degli errori
                 exit(randomWord)  # Esci dal gioco se hai raggiunto il limite di errori

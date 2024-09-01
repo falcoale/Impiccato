@@ -1,7 +1,3 @@
-Ecco il README aggiornato con la sezione **Contatti** inclusa:
-
----
-
 # 🎮 Gioco dell'Impiccato 👋
 
 Benvenuto nel **Gioco dell'Impiccato**! Hai mai giocato a questo gioco alle elementari, magari quando l'insegnante era assente? Se sì, questo programma in Python è fatto su misura per te, per farti rivivere quei momenti!

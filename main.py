@@ -169,7 +169,7 @@ def crea_dizionario_proprio():
         file_path = chiedi_file_json()
         return file_path  # Restituisce il percorso del file caricato
     elif dizionario_proprio == 3:
-        return None
+        dizionario_scelte()
     else:
         print(f'La tua scelta "{dizionario_proprio_scelte}" non è valida, riprova.')
         return None
@@ -180,7 +180,7 @@ def credits():
     database_link = "https://gist.github.com/sinanatra/23cc714cb98b2568d664eb6b4b46f6d6"
     print(f'Questo gioco è stato sviluppato interamente da Alessandro Falcari. {github_profile_link}\n'
           f'Json usato per le parole = {database_link}\n'
-          f'Versione gioco = v.1.0.0\n'
+          f'Versione gioco = v.2.0.0\n'
           f'Linguaggio = Python\n'
           f'[0] Torna al menu principale\n'
           f'>> ')
